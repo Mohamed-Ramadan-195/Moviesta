@@ -4,5 +4,6 @@ import androidx.annotation.DrawableRes
 
 data class MoviestaBottomNavigationItem (
     @DrawableRes val icon: Int,
+    @DrawableRes val iconFocused: Int,
     val title: String
 )

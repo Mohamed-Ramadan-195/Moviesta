@@ -68,8 +68,8 @@ dependencies {
 
     // Dependency-Injection
     implementation(libs.hilt.android)
-    implementation(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     // Retrofit-Connection
     implementation(libs.retrofit)
@@ -92,5 +92,6 @@ dependencies {
     // Room-Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.compiler)
+    //noinspection KaptUsageInsteadOfKsp
+    kapt(libs.androidx.room.compiler)
 }

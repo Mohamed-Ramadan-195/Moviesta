@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.moviesta.presentation.common.MoviestaButton
 import com.example.moviesta.presentation.common.MoviestaTextButton
 import com.example.moviesta.presentation.common.SpacerHeight
@@ -42,7 +44,7 @@ fun OnBoardingScreen (
                     0 -> listOf("Continue", "")
                     1 -> listOf("Continue", "Back")
                     2 -> listOf("Get Started", "Back")
-                    else -> listOf(EMPTY_STRING, EMPTY_STRING)
+                    else -> listOf("", "")
                 }
             }
         }
@@ -61,7 +63,8 @@ fun OnBoardingScreen (
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OnBoardingPageIndicator (
-                pageCount = 3,
+                modifier = Modifier.width(48.dp),
+                pageCount = onBoardingModelData.size,
                 selectedPage = pagerState.currentPage
             )
             SpacerHeight(Dimen.MediumSpace)
