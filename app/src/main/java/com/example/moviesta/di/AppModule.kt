@@ -1,7 +1,6 @@
 package com.example.moviesta.di
 
 import android.app.Application
-import com.example.moviesta.data.local.MoviestaDao
 import com.example.moviesta.data.manager.LocalUserManagerImpl
 import com.example.moviesta.data.remote.api.MoviestaApi
 import com.example.moviesta.data.repository.MoviestaRepositoryImpl
@@ -10,6 +9,7 @@ import com.example.moviesta.domain.repository.MoviestaRepository
 import com.example.moviesta.domain.usecase.app_entry.AppEntryUseCases
 import com.example.moviesta.domain.usecase.app_entry.ReadAppEntryUseCase
 import com.example.moviesta.domain.usecase.app_entry.SaveAppEntryUseCase
+import com.example.moviesta.domain.usecase.movie.GetMovieListsUseCase
 import com.example.moviesta.domain.usecase.movie.MovieUseCases
 import com.example.moviesta.util.Constant
 import dagger.Module
@@ -54,11 +54,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMoviestaRepository (
-        moviestaDao: MoviestaDao,
+        // moviestaDao: MoviestaDao,
         moviestaApi: MoviestaApi
     ) : MoviestaRepository {
         return MoviestaRepositoryImpl (
-            moviestaDao = moviestaDao,
+            // moviestaDao = moviestaDao,
             moviestaApi = moviestaApi
         )
     }
@@ -70,7 +70,7 @@ object AppModule {
         moviestaRepository: MoviestaRepository
     ) : MovieUseCases {
         return MovieUseCases (
-
+            getMovieListsUseCase = GetMovieListsUseCase(moviestaRepository)
         )
     }
 }

@@ -1,9 +1,6 @@
 package com.example.moviesta.util
 
 object Constant {
-    // Base
-    const val EMPTY_STRING = ""
-
     // App Entry (On-Boarding)
     const val DATASTORE_NAME = "Settings"
     const val APP_ENTRY = "App Entry"
@@ -22,6 +19,11 @@ object Constant {
     const val DETAILS_SCREEN = "Details Screen"
 
     // Remote Data
-    const val API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNTFhMDVmYzc2ZjhjZjBkMDgzNDlmMmIwOWM5MTQ5NyIsIm5iZiI6MTY5ODIzNDQwMi4wNTEsInN1YiI6IjY1MzkwMDIyMGZiMTdmMDBhYmMxMmQ0ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.I4GX5R1aiAQiNE08l3E79d60h_RQ_76lseTQm8C__0w"
+    const val API_KEY = "351a05fc76f8cf0d08349f2b09c91497"
     const val BASE_URL = "https://api.themoviedb.org/3/"
+    const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+    const val NOW_PLAYING = "now_playing"
+    const val POPULAR = "popular"
+    const val TOP_RATED = "top_rated"
+    const val UPCOMING = "upcoming"
 }

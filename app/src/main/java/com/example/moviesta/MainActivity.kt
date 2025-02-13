@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.core.view.WindowCompat
 import com.example.moviesta.presentation.navigation.nav_graph.NavGraph
 import com.example.moviesta.ui.theme.MoviestaTheme
 import com.example.moviesta.ui.theme.PrimaryBackground
+import com.example.moviesta.util.Dimen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -40,7 +43,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavGraphContent(mainViewModel: MainViewModel) {
+private fun NavGraphContent(mainViewModel: MainViewModel) {
     val isSystemInDarkTheme = isSystemInDarkTheme()
     @Suppress("DEPRECATION")
     val systemUiController = rememberSystemUiController()
@@ -51,7 +54,7 @@ fun NavGraphContent(mainViewModel: MainViewModel) {
         )
     }
     Box (
-        modifier = Modifier.background(PrimaryBackground)
+        modifier = Modifier.background(PrimaryBackground).padding(Dimen.ExtraSmallSpace)
     ) {
         val startDestination = mainViewModel.startDestination
         NavGraph(startDestination)
