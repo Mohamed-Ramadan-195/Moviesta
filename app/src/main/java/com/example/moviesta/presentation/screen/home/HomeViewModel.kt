@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviesta.domain.usecase.movie.MovieUseCases
 import com.example.moviesta.util.Constant
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,28 +36,40 @@ class HomeViewModel @Inject constructor (
     val movieUpcomingState: State<MovieState> = _movieUpcomingState
 
     private fun getMovieLists(endPoint: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             when (endPoint) {
                 Constant.NOW_PLAYING -> {
                     movieUseCases.getMovieListsUseCase(endPoint)
+                        .catch { e ->
+                            println("Error ${e.message}")
+                        }
                         .collect { movies ->
                             _movieNowPlayingState.value = _movieNowPlayingState.value.copy(movies = movies)
                         }
                 }
                 Constant.POPULAR -> {
                     movieUseCases.getMovieListsUseCase(endPoint)
+                        .catch { e ->
+                            println("Error ${e.message}")
+                        }
                         .collect { movies ->
                             _moviePopularState.value = _moviePopularState.value.copy(movies = movies)
                         }
                 }
                 Constant.TOP_RATED -> {
                     movieUseCases.getMovieListsUseCase(endPoint)
+                        .catch { e ->
+                            println("Error ${e.message}")
+                        }
                         .collect { movies ->
                             _movieTopRatedState.value = _movieTopRatedState.value.copy(movies = movies)
                         }
                 }
                 Constant.UPCOMING -> {
                     movieUseCases.getMovieListsUseCase(endPoint)
+                        .catch { e ->
+                            println("Error ${e.message}")
+                        }
                         .collect { movies ->
                             _movieUpcomingState.value = _movieUpcomingState.value.copy(movies = movies)
                         }

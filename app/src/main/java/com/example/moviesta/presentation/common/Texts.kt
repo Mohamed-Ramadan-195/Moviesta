@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.moviesta.ui.theme.PrimaryColor
 
 @Composable
 fun TextHeadline (
@@ -48,3 +49,23 @@ fun TextMediumPreview () {
     TextMedium("Who Am I .?")
 }
 
+/* ---------------------------------------- */
+
+@Composable
+fun TextAddress (
+    text: String
+) {
+    Text (
+        text = text,
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Serif,
+        color = PrimaryColor
+    )
+}
+
+@Composable
+@Preview
+fun TextAddressPreview() {
+    TextAddress("Moviesta")
+}

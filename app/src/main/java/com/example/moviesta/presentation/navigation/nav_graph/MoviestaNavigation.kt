@@ -1,7 +1,5 @@
 package com.example.moviesta.presentation.navigation.nav_graph
 
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,7 +9,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,7 +22,6 @@ import com.example.moviesta.presentation.screen.details.DetailsScreen
 import com.example.moviesta.presentation.screen.discover.DiscoverScreen
 import com.example.moviesta.presentation.screen.home.HomeScreen
 import com.example.moviesta.presentation.screen.search.SearchScreen
-import com.example.moviesta.util.Dimen
 
 @Composable
 fun MoviestaNavigation() {
@@ -108,7 +104,20 @@ fun MoviestaNavigation() {
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
             composable(route = Route.HomeScreen.route) {
-                HomeScreen()
+                HomeScreen (
+                    navigateToSearch = {
+                        navigateToTap (
+                            navController = navController,
+                            route = Route.SearchScreen.route
+                        )
+                    },
+                    navigateToDetails = { movieId ->
+                        navigateToDetails (
+                            navController = navController,
+                            movieId = movieId
+                        )
+                    }
+                )
             }
             composable(route = Route.SearchScreen.route) {
                 SearchScreen()
@@ -120,7 +129,10 @@ fun MoviestaNavigation() {
                 DiscoverScreen()
             }
             composable(route = Route.DetailsScreen.route) {
-                DetailsScreen()
+                navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")
+                    ?.let { id ->
+                        DetailsScreen(id)
+                    }
             }
         }
     }
@@ -143,9 +155,9 @@ private fun navigateToTap (
 
 private fun navigateToDetails (
     navController: NavController,
-    // item: Item
+    movieId: Int
 ) {
-    // navController.currentBackStackEntry?.savedStateHandle?.set("item", item)
+    navController.currentBackStackEntry?.savedStateHandle?.set("id", movieId)
     navController.navigate(route = Route.DetailsScreen.route)
 }
 

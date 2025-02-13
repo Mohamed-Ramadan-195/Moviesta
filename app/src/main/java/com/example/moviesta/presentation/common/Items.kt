@@ -2,22 +2,39 @@ package com.example.moviesta.presentation.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.moviesta.R
@@ -30,11 +47,14 @@ import kotlin.math.round
 @Composable
 fun MovieItem (
     modifier: Modifier = Modifier,
-    movie: Movies
+    movie: Movies,
+    navigateToDetails: (Int) -> Unit
 ) {
     val context = LocalContext.current
     Column (
-        modifier = modifier.padding(end = Dimen.SmallSpace),
+        modifier = modifier
+            .padding(end = Dimen.SmallSpace)
+            .clickable { navigateToDetails(movie.id) },
         horizontalAlignment = Alignment.Start
     ) {
         Box (
@@ -64,6 +84,8 @@ fun MovieItem (
     }
 }
 
+/* ---------------------------------------- */
+
 @Composable
 fun RatingBarItem (
     ratingAverage: Double,
@@ -90,4 +112,74 @@ fun RatingBarItem (
 @Preview
 fun RatingBarItemPreview() {
     RatingBarItem(ratingAverage = 8.7)
+}
+
+/* ---------------------------------------- */
+
+@Composable
+fun SearchBarItem (
+    modifier: Modifier = Modifier,
+    text: String,
+    readOnly: Boolean,
+    onClick: (() -> Unit)? = null,
+    onValueChange: (String) -> Unit,
+    onSearch: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isClicked = interactionSource.collectIsPressedAsState().value
+
+    LaunchedEffect(key1 = isClicked) {
+        if (isClicked) { onClick?.invoke() }
+    }
+
+    Box {
+        OutlinedTextField (
+            modifier = modifier.fillMaxWidth(),
+            value = text,
+            onValueChange = onValueChange,
+            readOnly = readOnly,
+            leadingIcon = {
+                Icon (
+                    modifier = Modifier.size(Dimen.LargeSpace),
+                    painter = painterResource(R.drawable.ic_search),
+                    contentDescription = "Search Icon",
+                    tint = Color.White
+                )
+            },
+            placeholder = {
+                Text (
+                    text = "Search",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.Serif,
+                    color = Color.White
+                )
+            },
+            shape = RoundedCornerShape(Dimen.MediumSpace),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onSearch() }),
+            interactionSource = interactionSource,
+            colors = OutlinedTextFieldDefaults.colors (
+                unfocusedContainerColor = SecondaryColor,
+                focusedContainerColor = SecondaryColor,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                unfocusedBorderColor = SecondaryColor,
+                focusedBorderColor = SecondaryColor
+            )
+        )
+    }
+}
+
+@Composable
+@Preview
+fun SearchBarItemPreview() {
+    SearchBarItem (
+        text = "",
+        readOnly = true,
+        onClick = {},
+        onValueChange = {},
+        onSearch = {}
+    )
 }

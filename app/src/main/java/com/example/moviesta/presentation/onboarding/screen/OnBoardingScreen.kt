@@ -25,7 +25,6 @@ import com.example.moviesta.presentation.onboarding.components.OnBoardingPage
 import com.example.moviesta.presentation.onboarding.components.OnBoardingPageIndicator
 import com.example.moviesta.presentation.onboarding.model.onBoardingModelData
 import com.example.moviesta.ui.theme.PrimaryBackground
-import com.example.moviesta.util.Constant.EMPTY_STRING
 import com.example.moviesta.util.Dimen
 import kotlinx.coroutines.launch
 
