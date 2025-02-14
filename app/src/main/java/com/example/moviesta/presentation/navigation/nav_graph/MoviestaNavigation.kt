@@ -21,7 +21,7 @@ import com.example.moviesta.presentation.screen.bookmark.BookmarkScreen
 import com.example.moviesta.presentation.screen.details.DetailsScreen
 import com.example.moviesta.presentation.screen.discover.DiscoverScreen
 import com.example.moviesta.presentation.screen.home.HomeScreen
-import com.example.moviesta.presentation.screen.search.SearchScreen
+import com.example.moviesta.presentation.screen.search.view.SearchScreen
 
 @Composable
 fun MoviestaNavigation() {
@@ -114,13 +114,25 @@ fun MoviestaNavigation() {
                     navigateToDetails = { movieId ->
                         navigateToDetails (
                             navController = navController,
-                            movieId = movieId
+                            movieId = movieId,
+                        )
+                    },
+                    navigateToDiscover = {
+                        navigateToDiscover (
+                            navController = navController
                         )
                     }
                 )
             }
             composable(route = Route.SearchScreen.route) {
-                SearchScreen()
+                SearchScreen (
+                    navigateToDetails = { movieId ->
+                        navigateToDetails (
+                            navController = navController,
+                            movieId = movieId
+                        )
+                    }
+                )
             }
             composable(route = Route.BookmarkScreen.route) {
                 BookmarkScreen()
@@ -131,7 +143,10 @@ fun MoviestaNavigation() {
             composable(route = Route.DetailsScreen.route) {
                 navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")
                     ?.let { id ->
-                        DetailsScreen(id)
+                        DetailsScreen(
+                            movieId = id,
+                            navigateUp = { navController.navigateUp() }
+                        )
                     }
             }
         }

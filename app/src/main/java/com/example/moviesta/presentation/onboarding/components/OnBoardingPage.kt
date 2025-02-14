@@ -5,8 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,14 +34,14 @@ fun OnBoardingPage (
         Image (
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.6f),
+                .fillMaxHeight(0.5f),
             painter = painterResource(onBoardingModel.icon),
             contentDescription = "On-Boarding Image",
             contentScale = ContentScale.Crop
         )
-        SpacerHeight(Dimen.LargeSpace)
+        SpacerHeight(Dimen.MediumSpace)
         Text (
-            modifier = Modifier.padding(Dimen.ExtraSmallSpace),
+            modifier = Modifier,
             text = onBoardingModel.title,
             textAlign = TextAlign.Center,
             fontSize = 24.sp,
@@ -52,7 +50,7 @@ fun OnBoardingPage (
         )
         SpacerHeight(Dimen.SmallSpace)
         Text (
-            modifier = Modifier.padding(Dimen.ExtraSmallSpace),
+            modifier = Modifier,
             text = onBoardingModel.body,
             textAlign = TextAlign.Center,
             fontSize = 18.sp,

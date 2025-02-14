@@ -2,6 +2,7 @@ package com.example.moviesta.presentation.common
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -11,13 +12,16 @@ import com.example.moviesta.ui.theme.PrimaryColor
 
 @Composable
 fun TextHeadline (
-    text: String
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.White
 ) {
     Text (
         text = text,
+        modifier = modifier,
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        color = Color.White,
+        color = color,
         fontFamily = FontFamily.Serif
     )
 }
@@ -25,20 +29,23 @@ fun TextHeadline (
 @Composable
 @Preview(name = "Headline")
 fun TextHeadlinePreview() {
-    TextHeadline("Now Playing")
+    TextHeadline(text = "Now Playing")
 }
 
 /* ---------------------------------------- */
 
 @Composable
 fun TextMedium (
-    text: String
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.White
 ) {
     Text (
         text = text,
+        modifier = modifier,
         fontSize = 18.sp,
         fontWeight = FontWeight.Medium,
-        color = Color.White,
+        color = color,
         fontFamily = FontFamily.Serif
     )
 }
@@ -46,18 +53,20 @@ fun TextMedium (
 @Composable
 @Preview(name = "Medium")
 fun TextMediumPreview () {
-    TextMedium("Who Am I .?")
+    TextMedium(text = "Who Am I .?")
 }
 
 /* ---------------------------------------- */
 
 @Composable
 fun TextAddress (
-    text: String
+    text: String,
+    modifier: Modifier = Modifier
 ) {
     Text (
         text = text,
-        fontSize = 30.sp,
+        modifier = modifier,
+        fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Serif,
         color = PrimaryColor
@@ -67,5 +76,5 @@ fun TextAddress (
 @Composable
 @Preview
 fun TextAddressPreview() {
-    TextAddress("Moviesta")
+    TextAddress(text = "Moviesta")
 }

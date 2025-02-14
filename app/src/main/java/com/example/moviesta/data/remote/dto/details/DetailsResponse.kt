@@ -1,11 +1,13 @@
 package com.example.moviesta.data.remote.dto.details
 
+import com.example.moviesta.domain.model.Genre
+import com.example.moviesta.domain.model.SpokenLanguage
 import com.google.gson.annotations.SerializedName
 
 data class DetailsResponse(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String,
-    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection,
+    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,
@@ -29,4 +31,35 @@ data class DetailsResponse(
     val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int
-)
+) {
+    companion object {
+        fun default() = DetailsResponse(
+            adult = false,
+            backdropPath = "",
+            belongsToCollection = null,
+            budget = 0,
+            genres = emptyList(),
+            homepage = "",
+            id = 0,
+            imdbId = "",
+            originCountry = emptyList(),
+            originalLanguage = "",
+            originalTitle = "",
+            overview = "",
+            popularity = 0.0,
+            posterPath = "",
+            productionCompanies = emptyList(),
+            productionCountries = emptyList(),
+            releaseDate = "",
+            revenue = 0,
+            runtime = 0,
+            spokenLanguages = emptyList(),
+            status = "",
+            tagline = "",
+            title = "",
+            video = false,
+            voteAverage = 0.0,
+            voteCount = 0
+        )
+    }
+}

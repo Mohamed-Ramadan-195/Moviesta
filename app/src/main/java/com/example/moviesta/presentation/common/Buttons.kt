@@ -31,7 +31,7 @@ fun MoviestaButton (
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
         shape = RoundedCornerShape(Dimen.ExtraLargeSpace),
-        contentPadding = PaddingValues(all = Dimen.MediumSpace),
+        contentPadding = PaddingValues(all = Dimen.SmallSpace),
         colors = ButtonDefaults.buttonColors(
             containerColor = PrimaryColor,
             contentColor = Color.Black
@@ -58,18 +58,21 @@ fun MoviestaButtonPreview() {
 @Composable
 fun MoviestaTextButton (
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    color: Color = Color.White,
+    modifier: Modifier = Modifier,
+    fontSize: Int = 14
 ) {
     TextButton (
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         onClick = onClick,
         contentPadding = PaddingValues(all = Dimen.SmallSpace)
     ) {
         Text (
             text = text,
-            fontSize = 24.sp,
+            fontSize = fontSize.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = color,
             fontFamily = FontFamily.Serif
         )
     }

@@ -2,5 +2,6 @@ package com.example.moviesta.domain.usecase.movie
 
 data class MovieUseCases (
     val getMovieListsUseCase: GetMovieListsUseCase,
-    val getMovieDetailsUseCase: GetMovieDetailsUseCase
+    val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    val searchMovieUseCase: SearchMovieUseCase
 )

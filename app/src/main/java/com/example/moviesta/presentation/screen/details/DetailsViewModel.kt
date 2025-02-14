@@ -13,7 +13,7 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor (
     private val movieUseCases: MovieUseCases
 ): ViewModel() {
-    private var _movieDetailsState = mutableStateOf(MovieDetailsState(null))
+    private var _movieDetailsState = mutableStateOf(MovieDetailsState())
     val movieDetailsState: State<MovieDetailsState> = _movieDetailsState
 
     fun getMovieDetails(movieId: Int) {

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,7 +34,9 @@ fun OnBoardingScreen (
     onBoardingEvent: (OnBoardingEvent) -> Unit
 ) {
     Column (
-        modifier = Modifier.fillMaxSize().background(PrimaryBackground)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground)
     ) {
         // Handle States For Pages ( pager & button )
         val pagerState = rememberPagerState(initialPage = 0) { onBoardingModelData.size }
@@ -84,6 +87,8 @@ fun OnBoardingScreen (
                     }
                 )
                 MoviestaTextButton (
+                    modifier = Modifier.fillMaxWidth(),
+                    fontSize = 24,
                     text = buttonState.value[1],
                     onClick = {
                         scope.launch {

@@ -31,4 +31,14 @@ class MoviestaRepositoryImpl @Inject constructor (
             println("Error in flow")
         }
     }
+
+    override suspend fun searchMovie(query: String): Flow<List<Movies>> {
+        return flow {
+            val response = moviestaApi.searchMovie(query = query)
+            emit(response.movies)
+        }.catch {
+            println("Error in flow")
+            emit(emptyList())
+        }
+    }
 }
