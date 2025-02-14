@@ -9,8 +9,10 @@ import com.example.moviesta.domain.repository.MoviestaRepository
 import com.example.moviesta.domain.usecase.app_entry.AppEntryUseCases
 import com.example.moviesta.domain.usecase.app_entry.ReadAppEntryUseCase
 import com.example.moviesta.domain.usecase.app_entry.SaveAppEntryUseCase
+import com.example.moviesta.domain.usecase.movie.GetGenresListUseCase
 import com.example.moviesta.domain.usecase.movie.GetMovieDetailsUseCase
 import com.example.moviesta.domain.usecase.movie.GetMovieListsUseCase
+import com.example.moviesta.domain.usecase.movie.GetMoviesByGenreUseCase
 import com.example.moviesta.domain.usecase.movie.MovieUseCases
 import com.example.moviesta.domain.usecase.movie.SearchMovieUseCase
 import com.example.moviesta.util.Constant
@@ -74,7 +76,9 @@ object AppModule {
         return MovieUseCases (
             getMovieListsUseCase = GetMovieListsUseCase(moviestaRepository),
             getMovieDetailsUseCase = GetMovieDetailsUseCase(moviestaRepository),
-            searchMovieUseCase = SearchMovieUseCase(moviestaRepository)
+            searchMovieUseCase = SearchMovieUseCase(moviestaRepository),
+            getGenresListUseCase = GetGenresListUseCase(moviestaRepository),
+            getMoviesByGenreUseCase = GetMoviesByGenreUseCase(moviestaRepository)
         )
     }
 }

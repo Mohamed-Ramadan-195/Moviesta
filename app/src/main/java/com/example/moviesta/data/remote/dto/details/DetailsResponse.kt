@@ -63,3 +63,22 @@ data class DetailsResponse(
         )
     }
 }
+
+data class BelongsToCollection(
+    val backdrop_path: String,
+    val id: Int,
+    val name: String,
+    val poster_path: String
+)
+
+data class ProductionCompany(
+    val id: Int,
+    val logo_path: String,
+    val name: String,
+    val origin_country: String
+)
+
+data class ProductionCountry(
+    val iso_3166_1: String,
+    val name: String
+)

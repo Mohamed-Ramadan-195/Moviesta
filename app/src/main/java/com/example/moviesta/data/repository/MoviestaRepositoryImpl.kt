@@ -2,6 +2,7 @@ package com.example.moviesta.data.repository
 
 import com.example.moviesta.data.remote.api.MoviestaApi
 import com.example.moviesta.data.remote.dto.details.DetailsResponse
+import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.model.Movies
 import com.example.moviesta.domain.repository.MoviestaRepository
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +36,26 @@ class MoviestaRepositoryImpl @Inject constructor (
     override suspend fun searchMovie(query: String): Flow<List<Movies>> {
         return flow {
             val response = moviestaApi.searchMovie(query = query)
+            emit(response.movies)
+        }.catch {
+            println("Error in flow")
+            emit(emptyList())
+        }
+    }
+
+    override suspend fun getGenresList(): Flow<List<Genre>> {
+        return flow {
+            val response = moviestaApi.getGenresList()
+            emit(response.genres)
+        }.catch {
+            println("Error in flow")
+            emit(emptyList())
+        }
+    }
+
+    override suspend fun getMoviesByGenre(genreId: Int): Flow<List<Movies>> {
+        return flow {
+            val response = moviestaApi.getMoviesByGenre(genreId = genreId)
             emit(response.movies)
         }.catch {
             println("Error in flow")

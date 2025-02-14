@@ -138,7 +138,15 @@ fun MoviestaNavigation() {
                 BookmarkScreen()
             }
             composable(route = Route.DiscoverScreen.route) {
-                DiscoverScreen()
+                DiscoverScreen (
+                    navigateUp = { navController.navigateUp() },
+                    navigateToDetails = { movieId ->
+                        navigateToDetails (
+                            navController = navController,
+                            movieId = movieId
+                        )
+                    }
+                )
             }
             composable(route = Route.DetailsScreen.route) {
                 navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")

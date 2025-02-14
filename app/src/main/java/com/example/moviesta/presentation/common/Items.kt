@@ -1,6 +1,7 @@
 package com.example.moviesta.presentation.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.moviesta.R
+import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.model.Movies
 import com.example.moviesta.ui.theme.SecondaryColor
 import com.example.moviesta.util.Constant
@@ -182,4 +185,75 @@ fun SearchBarItemPreview() {
         onValueChange = {},
         onSearch = {}
     )
+}
+
+/* ---------------------------------------- */
+
+@Composable
+fun GenreItem (
+    genre: Genre,
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
+    boxColor: Color = SecondaryColor,
+    textColor: Color = Color.White
+) {
+    Text (
+        modifier = modifier
+            .background(boxColor, RoundedCornerShape(Dimen.SmallSpace))
+            .padding(Dimen.SmallSpace)
+            .clickable { onClick(genre.id) },
+        text = genre.name,
+        color = textColor,
+    )
+}
+
+@Composable
+@Preview
+fun GenreItemPreview () {
+    GenreItem(
+        genre = Genre(0,"Action"),
+        onClick = {}
+    )
+}
+
+/* ---------------------------------------- */
+
+@Composable
+fun MovieItemVertical (
+    modifier: Modifier = Modifier,
+    movie: Movies,
+    navigateToDetails: (Int) -> Unit
+) {
+    val context = LocalContext.current
+    Column (
+        modifier = modifier
+            .padding(end = Dimen.SmallSpace)
+            .clickable { navigateToDetails(movie.id) },
+        horizontalAlignment = Alignment.Start
+    ) {
+        Box (
+            modifier = Modifier
+                .height(160.dp)
+                .clip(RoundedCornerShape(Dimen.MediumSpace))
+                .border(1.dp, SecondaryColor, RoundedCornerShape(Dimen.MediumSpace))
+        ) {
+            AsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                model = ImageRequest.Builder(context)
+                    .data("${Constant.BASE_IMAGE_URL}${movie.posterPath}")
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Movie Poster",
+                contentScale = ContentScale.FillBounds
+            )
+            MoviestaIconButton (
+                modifier.align(Alignment.TopEnd),
+                icon = R.drawable.ic_bookmark,
+                onClick = {}
+            )
+        }
+        SpacerHeight(Dimen.MediumSpace)
+        TextMedium(text = movie.title)
+        RatingBarItem(ratingAverage = movie.voteAverage)
+    }
 }
