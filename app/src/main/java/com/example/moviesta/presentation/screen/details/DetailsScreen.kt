@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +24,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.moviesta.R
 import com.example.moviesta.data.remote.dto.details.DetailsResponse
+import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.common.MoviestaIconButton
 import com.example.moviesta.presentation.common.RatingBarItem
 import com.example.moviesta.presentation.common.SpacerHeight
@@ -30,6 +32,8 @@ import com.example.moviesta.presentation.common.SpacerWidth
 import com.example.moviesta.presentation.common.TextAddress
 import com.example.moviesta.presentation.common.TextHeadline
 import com.example.moviesta.presentation.common.TextMedium
+import com.example.moviesta.presentation.screen.bookmark.BookmarkEvent
+import com.example.moviesta.presentation.screen.bookmark.BookmarkViewModel
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.util.Constant
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
@@ -39,22 +43,40 @@ import com.example.moviesta.util.Dimen.SmallSpace
 @Composable
 fun DetailsScreen (
     movieId: Int,
+    movie: Movie,
     navigateUp: () -> Unit
 ) {
     val detailsViewModel: DetailsViewModel = hiltViewModel()
+    val bookmarkViewModel: BookmarkViewModel = hiltViewModel()
+
     detailsViewModel.getMovieDetails(movieId)
     val movieDetailsState by detailsViewModel.movieDetailsState
+
+    if (bookmarkViewModel.sideEffect != null) {
+        bookmarkViewModel.onEvent(BookmarkEvent.RemoveSideEffect)
+    }
+
+    val bookmarkedMovies = bookmarkViewModel.bookmarkedMovies
+
     DetailsScreenContent (
         movieDetails = movieDetailsState.movieDetails,
-        navigateUp = navigateUp
+        navigateUp = navigateUp,
+        movie = movie,
+        bookmarkEvent = bookmarkViewModel::onEvent,
+        bookmarkedMovies = bookmarkedMovies
     )
 }
 
 @Composable
 fun DetailsScreenContent (
     movieDetails: DetailsResponse,
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
+    movie: Movie,
+    bookmarkEvent: (BookmarkEvent) -> Unit,
+    bookmarkedMovies: Set<Int>
 ) {
+    val isBookmarked = movie.id in bookmarkedMovies
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -84,8 +106,9 @@ fun DetailsScreenContent (
                modifier = Modifier
                    .align(Alignment.TopEnd)
                    .padding(top = MediumSpace),
-               icon = R.drawable.ic_bookmark,
-               onClick = {  }
+               icon = if (isBookmarked) R.drawable.ic_bookmark_focused else R.drawable.ic_bookmark,
+               tint = if (isBookmarked) PrimaryColor else Color.White,
+               onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) }
            )
         }
         TextAddress(text = movieDetails.title)

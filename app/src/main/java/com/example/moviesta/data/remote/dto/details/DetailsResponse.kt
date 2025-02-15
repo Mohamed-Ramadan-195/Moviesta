@@ -1,17 +1,23 @@
 package com.example.moviesta.data.remote.dto.details
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.model.SpokenLanguage
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
+@Entity
 data class DetailsResponse(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String,
-    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,
+    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String,
-    val id: Int,
+    @PrimaryKey val id: Int,
     @SerializedName("imdb_id") val imdbId: String,
     @SerializedName("origin_country") val originCountry: List<String>,
     @SerializedName("original_language") val originalLanguage: String,
@@ -31,12 +37,17 @@ data class DetailsResponse(
     val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int
-) {
+): Parcelable {
     companion object {
         fun default() = DetailsResponse(
             adult = false,
             backdropPath = "",
-            belongsToCollection = null,
+            belongsToCollection = BelongsToCollection (
+                backdrop_path = "",
+                id = 0,
+                name = "",
+                poster_path = ""
+            ),
             budget = 0,
             genres = emptyList(),
             homepage = "",
@@ -64,21 +75,24 @@ data class DetailsResponse(
     }
 }
 
+@Parcelize
 data class BelongsToCollection(
     val backdrop_path: String,
     val id: Int,
     val name: String,
     val poster_path: String
-)
+): Parcelable
 
+@Parcelize
 data class ProductionCompany(
     val id: Int,
     val logo_path: String,
     val name: String,
     val origin_country: String
-)
+): Parcelable
 
+@Parcelize
 data class ProductionCountry(
     val iso_3166_1: String,
     val name: String
-)
+): Parcelable

@@ -4,21 +4,21 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moviesta.domain.usecase.movie.MovieUseCases
+import com.example.moviesta.domain.usecase.movie.base.MovieUseCasesRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor (
-    private val movieUseCases: MovieUseCases
+    private val movieUseCasesRemote: MovieUseCasesRemote
 ): ViewModel() {
     private var _movieDetailsState = mutableStateOf(MovieDetailsState())
     val movieDetailsState: State<MovieDetailsState> = _movieDetailsState
 
     fun getMovieDetails(movieId: Int) {
         viewModelScope.launch {
-            movieUseCases.getMovieDetailsUseCase(movieId)
+            movieUseCasesRemote.getMovieDetailsUseCase(movieId)
                 .collect { movieDetails ->
                     _movieDetailsState.value = _movieDetailsState.value.copy(movieDetails = movieDetails)
                 }

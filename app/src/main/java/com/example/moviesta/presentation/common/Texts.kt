@@ -38,12 +38,13 @@ fun TextHeadlinePreview() {
 fun TextMedium (
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Color.White
+    color: Color = Color.White,
+    fontSize: Int = 18
 ) {
     Text (
         text = text,
         modifier = modifier,
-        fontSize = 18.sp,
+        fontSize = fontSize.sp,
         fontWeight = FontWeight.Medium,
         color = color,
         fontFamily = FontFamily.Serif

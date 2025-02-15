@@ -41,30 +41,36 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.moviesta.R
 import com.example.moviesta.domain.model.Genre
-import com.example.moviesta.domain.model.Movies
+import com.example.moviesta.domain.model.Movie
+import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.ui.theme.SecondaryColor
 import com.example.moviesta.util.Constant
 import com.example.moviesta.util.Dimen
+import com.example.moviesta.util.Dimen.ExtraSmallSpace
+import com.example.moviesta.util.Dimen.MediumSpace
+import com.example.moviesta.util.Dimen.SmallSpace
 import kotlin.math.round
 
 @Composable
 fun MovieItem (
     modifier: Modifier = Modifier,
-    movie: Movies,
-    navigateToDetails: (Int) -> Unit
+    movie: Movie,
+    navigateToDetails: (Int, Movie) -> Unit,
+    onClick: () -> Unit,
+    isBookmarked: Boolean
 ) {
     val context = LocalContext.current
     Column (
         modifier = modifier
-            .padding(end = Dimen.SmallSpace)
-            .clickable { navigateToDetails(movie.id) },
+            .padding(end = SmallSpace)
+            .clickable { navigateToDetails(movie.id, movie) },
         horizontalAlignment = Alignment.Start
     ) {
         Box (
             modifier = Modifier
                 .size(320.dp, height = 160.dp)
-                .clip(RoundedCornerShape(Dimen.MediumSpace))
-                .border(1.dp, SecondaryColor, RoundedCornerShape(Dimen.MediumSpace))
+                .clip(RoundedCornerShape(MediumSpace))
+                .border(1.dp, SecondaryColor, RoundedCornerShape(MediumSpace))
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
@@ -77,11 +83,12 @@ fun MovieItem (
             )
             MoviestaIconButton (
                 modifier.align(Alignment.TopEnd),
-                icon = R.drawable.ic_bookmark,
-                onClick = {}
+                icon = if (isBookmarked) R.drawable.ic_bookmark_focused else R.drawable.ic_bookmark,
+                tint = if (isBookmarked) PrimaryColor else Color.White,
+                onClick = { onClick() }
             )
         }
-        SpacerHeight(Dimen.MediumSpace)
+        SpacerHeight(MediumSpace)
         TextMedium(text = movie.title)
         RatingBarItem(ratingAverage = movie.voteAverage)
     }
@@ -99,7 +106,7 @@ fun RatingBarItem (
     Row {
         for (i in 1..stars) {
             Image (
-                modifier = Modifier.padding(end = Dimen.ExtraSmallSpace),
+                modifier = Modifier.padding(end = ExtraSmallSpace),
                 painter = painterResource (
                     if (i <= rating) R.drawable.ic_star_full
                     else if ((i - 0.5f).toDouble() == rating) R.drawable.ic_star_half
@@ -158,7 +165,7 @@ fun SearchBarItem (
                     color = Color.White
                 )
             },
-            shape = RoundedCornerShape(Dimen.MediumSpace),
+            shape = RoundedCornerShape(MediumSpace),
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { onSearch() }),
@@ -199,8 +206,8 @@ fun GenreItem (
 ) {
     Text (
         modifier = modifier
-            .background(boxColor, RoundedCornerShape(Dimen.SmallSpace))
-            .padding(Dimen.SmallSpace)
+            .background(boxColor, RoundedCornerShape(SmallSpace))
+            .padding(SmallSpace)
             .clickable { onClick(genre.id) },
         text = genre.name,
         color = textColor,
@@ -221,21 +228,23 @@ fun GenreItemPreview () {
 @Composable
 fun MovieItemVertical (
     modifier: Modifier = Modifier,
-    movie: Movies,
-    navigateToDetails: (Int) -> Unit
+    movie: Movie,
+    navigateToDetails: (Int, Movie) -> Unit,
+    isBookmarked: Boolean,
+    onClick: () -> Unit
 ) {
     val context = LocalContext.current
     Column (
         modifier = modifier
-            .padding(end = Dimen.SmallSpace)
-            .clickable { navigateToDetails(movie.id) },
+            .padding(end = SmallSpace)
+            .clickable { navigateToDetails(movie.id, movie) },
         horizontalAlignment = Alignment.Start
     ) {
         Box (
             modifier = Modifier
                 .height(160.dp)
-                .clip(RoundedCornerShape(Dimen.MediumSpace))
-                .border(1.dp, SecondaryColor, RoundedCornerShape(Dimen.MediumSpace))
+                .clip(RoundedCornerShape(MediumSpace))
+                .border(1.dp, SecondaryColor, RoundedCornerShape(MediumSpace))
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
@@ -248,11 +257,12 @@ fun MovieItemVertical (
             )
             MoviestaIconButton (
                 modifier.align(Alignment.TopEnd),
-                icon = R.drawable.ic_bookmark,
-                onClick = {}
+                icon = if (isBookmarked) R.drawable.ic_bookmark_focused else R.drawable.ic_bookmark,
+                tint = if (isBookmarked) PrimaryColor else Color.White,
+                onClick = { onClick() }
             )
         }
-        SpacerHeight(Dimen.MediumSpace)
+        SpacerHeight(MediumSpace)
         TextMedium(text = movie.title)
         RatingBarItem(ratingAverage = movie.voteAverage)
     }

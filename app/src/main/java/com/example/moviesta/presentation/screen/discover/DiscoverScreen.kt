@@ -28,13 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.moviesta.R
 import com.example.moviesta.domain.model.Genre
-import com.example.moviesta.domain.model.Movies
+import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.common.GenreItem
 import com.example.moviesta.presentation.common.MovieItemVertical
 import com.example.moviesta.presentation.common.MoviestaIconButton
 import com.example.moviesta.presentation.common.SpacerHeight
 import com.example.moviesta.presentation.common.SpacerWidth
 import com.example.moviesta.presentation.common.TextAddress
+import com.example.moviesta.presentation.screen.bookmark.BookmarkEvent
+import com.example.moviesta.presentation.screen.bookmark.BookmarkViewModel
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.ui.theme.SecondaryColor
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
@@ -46,20 +48,29 @@ import com.example.moviesta.util.Dimen.UnderMediumSpace
 @Composable
 fun DiscoverScreen (
     navigateUp: () -> Unit,
-    navigateToDetails: (Int) -> Unit
+    navigateToDetails: (Int, Movie) -> Unit
 ) {
     val discoverViewModel: DiscoverViewModel = hiltViewModel()
+    val bookmarkViewModel: BookmarkViewModel = hiltViewModel()
+
     val discoverState = discoverViewModel.discoverState.value
     val genres = discoverState.genres
     val getMoviesByGenre = discoverViewModel::getMoviesByGenre
     val movies = discoverState.movies
+    val bookmarkedMovies = bookmarkViewModel.bookmarkedMovies
+
+    if (bookmarkViewModel.sideEffect != null) {
+        bookmarkViewModel.onEvent(BookmarkEvent.RemoveSideEffect)
+    }
 
     DiscoverScreenContent (
         genres = genres,
         navigateUp = navigateUp,
         getMoviesByGenre = getMoviesByGenre,
         movies = movies,
-        navigateToDetails = navigateToDetails
+        navigateToDetails = navigateToDetails,
+        bookmarkedMovies = bookmarkedMovies,
+        bookmarkEvent = bookmarkViewModel::onEvent
     )
 }
 
@@ -68,8 +79,10 @@ fun DiscoverScreenContent (
     genres: List<Genre>,
     navigateUp: () -> Unit,
     getMoviesByGenre: (Int) -> Unit,
-    movies: List<Movies>,
-    navigateToDetails: (Int) -> Unit
+    movies: List<Movie>,
+    navigateToDetails: (Int, Movie) -> Unit,
+    bookmarkedMovies: Set<Int>,
+    bookmarkEvent: (BookmarkEvent) -> Unit
 ) {
     var selectedGenreId by remember { mutableIntStateOf(-1) }
     LaunchedEffect(genres) {
@@ -131,10 +144,16 @@ fun DiscoverScreenContent (
             verticalItemSpacing = LargeSpace
         ) {
             items(movies.size) { index ->
+                val movie = movies[index]
+                val isBookmarked = bookmarkedMovies.contains(movie.id)
                 MovieItemVertical (
                     modifier = Modifier,
-                    movie = movies[index],
-                    navigateToDetails = { navigateToDetails(movies[index].id) }
+                    movie = movie,
+                    navigateToDetails = { _, _ ->
+                        navigateToDetails(movie.id, movie)
+                    },
+                    isBookmarked = isBookmarked,
+                    onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) }
                 )
             }
         }

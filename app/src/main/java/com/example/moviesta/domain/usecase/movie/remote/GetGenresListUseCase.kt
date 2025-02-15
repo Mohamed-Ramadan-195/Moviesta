@@ -1,4 +1,4 @@
-package com.example.moviesta.domain.usecase.movie
+package com.example.moviesta.domain.usecase.movie.remote
 
 import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.repository.MoviestaRepository

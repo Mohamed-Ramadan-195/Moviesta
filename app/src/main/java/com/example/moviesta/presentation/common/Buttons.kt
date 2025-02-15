@@ -91,7 +91,8 @@ fun MoviestaTextButtonPreview() {
 fun MoviestaIconButton (
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    tint: Color = Color.White
 ) {
     IconButton (
         modifier = modifier,
@@ -100,7 +101,7 @@ fun MoviestaIconButton (
         Icon (
             painter = painterResource(icon),
             contentDescription = "Icon Button",
-            tint = Color.White
+            tint = tint
         )
     }
 }

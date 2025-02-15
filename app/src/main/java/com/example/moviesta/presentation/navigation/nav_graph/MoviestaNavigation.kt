@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.moviesta.R
+import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.navigation.bottom_navigation.MoviestaBottomNavigation
 import com.example.moviesta.presentation.navigation.bottom_navigation.MoviestaBottomNavigationItem
 import com.example.moviesta.presentation.screen.bookmark.BookmarkScreen
@@ -111,10 +112,11 @@ fun MoviestaNavigation() {
                             route = Route.SearchScreen.route
                         )
                     },
-                    navigateToDetails = { movieId ->
+                    navigateToDetails = { movieId, movie ->
                         navigateToDetails (
                             navController = navController,
                             movieId = movieId,
+                            movie = movie
                         )
                     },
                     navigateToDiscover = {
@@ -126,36 +128,49 @@ fun MoviestaNavigation() {
             }
             composable(route = Route.SearchScreen.route) {
                 SearchScreen (
-                    navigateToDetails = { movieId ->
+                    navigateToDetails = { movieId, movie ->
                         navigateToDetails (
                             navController = navController,
-                            movieId = movieId
+                            movieId = movieId,
+                            movie = movie
                         )
                     }
                 )
             }
             composable(route = Route.BookmarkScreen.route) {
-                BookmarkScreen()
+                BookmarkScreen (
+                    navigateToDetails = { movieId, movie ->
+                        navigateToDetails (
+                            navController = navController,
+                            movieId = movieId,
+                            movie = movie
+                        )
+                    }
+                )
             }
             composable(route = Route.DiscoverScreen.route) {
                 DiscoverScreen (
                     navigateUp = { navController.navigateUp() },
-                    navigateToDetails = { movieId ->
+                    navigateToDetails = { movieId, movie ->
                         navigateToDetails (
                             navController = navController,
-                            movieId = movieId
+                            movieId = movieId,
+                            movie = movie
                         )
                     }
                 )
             }
             composable(route = Route.DetailsScreen.route) {
-                navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")
-                    ?.let { id ->
-                        DetailsScreen(
-                            movieId = id,
-                            navigateUp = { navController.navigateUp() }
-                        )
-                    }
+                val id = navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")
+                val movie = navController.previousBackStackEntry?.savedStateHandle?.get<Movie>("movie")
+
+                if (id != null && movie != null) {
+                    DetailsScreen (
+                        movieId = id,
+                        movie = movie,
+                        navigateUp = { navController.navigateUp() }
+                    )
+                }
             }
         }
     }
@@ -178,9 +193,11 @@ private fun navigateToTap (
 
 private fun navigateToDetails (
     navController: NavController,
-    movieId: Int
+    movieId: Int,
+    movie: Movie
 ) {
     navController.currentBackStackEntry?.savedStateHandle?.set("id", movieId)
+    navController.currentBackStackEntry?.savedStateHandle?.set("movie", movie)
     navController.navigate(route = Route.DetailsScreen.route)
 }
 

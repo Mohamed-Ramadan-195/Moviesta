@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moviesta.domain.usecase.movie.MovieUseCases
+import com.example.moviesta.domain.usecase.movie.base.MovieUseCasesRemote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiscoverViewModel @Inject constructor (
-    private val movieUseCases: MovieUseCases
+    private val movieUseCases: MovieUseCasesRemote
 ): ViewModel() {
 
     init {

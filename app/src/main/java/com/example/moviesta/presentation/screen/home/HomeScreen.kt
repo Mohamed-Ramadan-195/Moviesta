@@ -17,7 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.moviesta.domain.model.Movies
+import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.common.MovieItem
 import com.example.moviesta.presentation.common.MoviestaTextButton
 import com.example.moviesta.presentation.common.SearchBarItem
@@ -25,25 +25,32 @@ import com.example.moviesta.presentation.common.TextHeadline
 import com.example.moviesta.presentation.common.SpacerHeight
 import com.example.moviesta.presentation.common.TextAddress
 import com.example.moviesta.presentation.common.TextMedium
+import com.example.moviesta.presentation.screen.bookmark.BookmarkEvent
+import com.example.moviesta.presentation.screen.bookmark.BookmarkViewModel
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
 import com.example.moviesta.util.Dimen.SmallSpace
-import com.example.moviesta.util.Dimen.UnderMediumSpace
 import com.example.moviesta.util.Dimen.MediumSpace
 import com.example.moviesta.util.Dimen.ExtraLargeSpace
 
 @Composable
 fun HomeScreen (
     navigateToSearch: () -> Unit,
-    navigateToDetails: (Int) -> Unit,
+    navigateToDetails: (Int, Movie) -> Unit,
     navigateToDiscover: () -> Unit
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val bookmarkViewModel: BookmarkViewModel = hiltViewModel()
 
     val movieNowPlayingState by homeViewModel.movieNowPlayingState
     val moviePopularState by homeViewModel.moviePopularState
     val movieTopRatedState by homeViewModel.movieTopRatedState
     val movieUpcomingState by homeViewModel.movieUpcomingState
+
+    if (bookmarkViewModel.sideEffect != null) {
+        bookmarkViewModel.onEvent(BookmarkEvent.RemoveSideEffect)
+    }
+    val bookmarkedMovies = bookmarkViewModel.bookmarkedMovies
 
     HomeScreenContent (
         moviesNowPlaying = movieNowPlayingState.movies,
@@ -52,19 +59,23 @@ fun HomeScreen (
         moviesUpcoming = movieUpcomingState.movies,
         navigateToSearch = navigateToSearch,
         navigateToDetails = navigateToDetails,
-        navigateToDiscover = navigateToDiscover
+        navigateToDiscover = navigateToDiscover,
+        bookmarkEvent = bookmarkViewModel::onEvent,
+        bookmarkedMovies = bookmarkedMovies
     )
 }
 
 @Composable
 fun HomeScreenContent (
-    moviesNowPlaying: List<Movies>,
-    moviesPopular: List<Movies>,
-    moviesTopRated: List<Movies>,
-    moviesUpcoming: List<Movies>,
+    moviesNowPlaying: List<Movie>,
+    moviesPopular: List<Movie>,
+    moviesTopRated: List<Movie>,
+    moviesUpcoming: List<Movie>,
     navigateToSearch: () -> Unit,
-    navigateToDetails: (Int) -> Unit,
-    navigateToDiscover: () -> Unit
+    navigateToDetails: (Int, Movie) -> Unit,
+    navigateToDiscover: () -> Unit,
+    bookmarkEvent: (BookmarkEvent) -> Unit,
+    bookmarkedMovies: Set<Int>
 ) {
     Column (
         modifier = Modifier
@@ -78,6 +89,7 @@ fun HomeScreenContent (
         TextAddress("Moviesta")
         TextMedium("Discover Your Next Favorite Movie")
         SpacerHeight(SmallSpace)
+
         SearchBarItem (
             modifier = Modifier.fillMaxWidth(),
             text = "",
@@ -87,6 +99,7 @@ fun HomeScreenContent (
             onClick = { navigateToSearch() }
         )
         SpacerHeight(MediumSpace)
+
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -95,28 +108,35 @@ fun HomeScreenContent (
             TextHeadline("Now Playing")
             MoviestaTextButton(
                 modifier = Modifier.padding(end = ExtraSmallSpace),
-                text = "SEE MORE",
+                text = "See More",
                 color = PrimaryColor,
                 onClick = { navigateToDiscover() }
             )
         }
-        SpacerHeight(UnderMediumSpace)
+        SpacerHeight(SmallSpace)
         LazyRow (
             modifier = Modifier
         ) {
             items(moviesNowPlaying.size) { index ->
+                val movie = moviesNowPlaying[index]
+                val isBookmarked = bookmarkedMovies.contains(movie.id)
+
                 MovieItem(
-                    movie = moviesNowPlaying[index],
-                    navigateToDetails = {
-                        navigateToDetails(moviesNowPlaying[index].id)
-                    }
+                    movie = movie,
+                    navigateToDetails = { _, _ ->
+                        navigateToDetails(movie.id, movie)
+                    },
+                    onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) },
+                    isBookmarked = isBookmarked
                 )
             }
         }
         SpacerHeight(ExtraLargeSpace)
+
         Row (
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TextHeadline("Popular")
             MoviestaTextButton(
@@ -126,23 +146,29 @@ fun HomeScreenContent (
                 onClick = { navigateToDiscover() }
             )
         }
-        SpacerHeight(UnderMediumSpace)
+        SpacerHeight(SmallSpace)
         LazyRow (
             modifier = Modifier
         ) {
             items(moviesPopular.size) { index ->
+                val movie = moviesPopular[index]
+                val isBookmarked = bookmarkedMovies.contains(movie.id)
                 MovieItem(
-                    movie = moviesPopular[index],
-                    navigateToDetails = {
-                        navigateToDetails(moviesPopular[index].id)
-                    }
+                    movie = movie,
+                    navigateToDetails = { _, _ ->
+                        navigateToDetails(movie.id, movie)
+                    },
+                    onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) },
+                    isBookmarked = isBookmarked
                 )
             }
         }
         SpacerHeight(ExtraLargeSpace)
+
         Row (
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TextHeadline("Top Rated")
             MoviestaTextButton(
@@ -152,23 +178,29 @@ fun HomeScreenContent (
                 onClick = { navigateToDiscover() }
             )
         }
-        SpacerHeight(UnderMediumSpace)
+        SpacerHeight(SmallSpace)
         LazyRow (
             modifier = Modifier
         ) {
             items(moviesTopRated.size) { index ->
+                val movie = moviesTopRated[index]
+                val isBookmarked = bookmarkedMovies.contains(movie.id)
                 MovieItem(
-                    movie = moviesTopRated[index],
-                    navigateToDetails = {
-                        navigateToDetails(moviesTopRated[index].id)
-                    }
+                    movie = movie,
+                    navigateToDetails = { _, _ ->
+                        navigateToDetails(movie.id, movie)
+                    },
+                    onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) },
+                    isBookmarked = isBookmarked
                 )
             }
         }
         SpacerHeight(ExtraLargeSpace)
+
         Row (
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TextHeadline("Upcoming")
             MoviestaTextButton(
@@ -178,16 +210,20 @@ fun HomeScreenContent (
                 onClick = { navigateToDiscover() }
             )
         }
-        SpacerHeight(UnderMediumSpace)
+        SpacerHeight(SmallSpace)
         LazyRow (
             modifier = Modifier
         ) {
             items(moviesUpcoming.size) { index ->
+                val movie = moviesUpcoming[index]
+                val isBookmarked = bookmarkedMovies.contains(movie.id)
                 MovieItem(
-                    movie = moviesUpcoming[index],
-                    navigateToDetails = {
-                        navigateToDetails(moviesUpcoming[index].id)
-                    }
+                    movie = movie,
+                    navigateToDetails = { _, _ ->
+                        navigateToDetails(movie.id, movie)
+                    },
+                    onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) },
+                    isBookmarked = isBookmarked
                 )
             }
         }

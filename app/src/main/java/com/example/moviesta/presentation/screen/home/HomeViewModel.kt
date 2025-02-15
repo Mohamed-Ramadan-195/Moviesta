@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moviesta.domain.usecase.movie.MovieUseCases
+import com.example.moviesta.domain.usecase.movie.base.MovieUseCasesRemote
 import com.example.moviesta.util.Constant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor (
-    private val movieUseCases: MovieUseCases
+    private val movieUseCases: MovieUseCasesRemote
 ): ViewModel() {
 
     init {

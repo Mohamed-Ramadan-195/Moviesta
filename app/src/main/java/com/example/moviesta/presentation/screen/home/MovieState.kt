@@ -1,7 +1,7 @@
 package com.example.moviesta.presentation.screen.home
 
-import com.example.moviesta.domain.model.Movies
+import com.example.moviesta.domain.model.Movie
 
 data class MovieState (
-    val movies: List<Movies> = emptyList()
+    val movies: List<Movie> = emptyList()
 )
