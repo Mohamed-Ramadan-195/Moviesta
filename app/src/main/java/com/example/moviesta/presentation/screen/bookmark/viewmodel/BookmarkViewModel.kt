@@ -1,4 +1,4 @@
-package com.example.moviesta.presentation.screen.bookmark
+package com.example.moviesta.presentation.screen.bookmark.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.domain.usecase.movie.base.MovieUseCasesLocal
+import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
+import com.example.moviesta.presentation.screen.bookmark.state.BookmarkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

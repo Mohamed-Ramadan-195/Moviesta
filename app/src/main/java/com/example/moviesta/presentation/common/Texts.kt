@@ -54,7 +54,7 @@ fun TextMedium (
 @Composable
 @Preview(name = "Medium")
 fun TextMediumPreview () {
-    TextMedium(text = "Who Am I .?")
+    TextMedium(text = "The Godfather")
 }
 
 /* ---------------------------------------- */
@@ -70,7 +70,8 @@ fun TextAddress (
         fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.Serif,
-        color = PrimaryColor
+        color = PrimaryColor,
+        lineHeight = 36.sp
     )
 }
 

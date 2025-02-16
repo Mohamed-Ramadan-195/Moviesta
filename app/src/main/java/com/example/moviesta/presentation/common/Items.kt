@@ -8,12 +8,14 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -42,6 +44,7 @@ import coil.request.ImageRequest
 import com.example.moviesta.R
 import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.model.Movie
+import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.ui.theme.SecondaryColor
 import com.example.moviesta.util.Constant
@@ -68,11 +71,11 @@ fun MovieItem (
     ) {
         Box (
             modifier = Modifier
-                .size(320.dp, height = 160.dp)
+                .size(width = 320.dp, height = 160.dp)
                 .clip(RoundedCornerShape(MediumSpace))
                 .border(1.dp, SecondaryColor, RoundedCornerShape(MediumSpace))
         ) {
-            AsyncImage(
+            AsyncImage (
                 modifier = Modifier.fillMaxSize(),
                 model = ImageRequest.Builder(context)
                     .data("${Constant.BASE_IMAGE_URL}${movie.posterPath}")
@@ -138,9 +141,7 @@ fun SearchBarItem (
     val interactionSource = remember { MutableInteractionSource() }
     val isClicked = interactionSource.collectIsPressedAsState().value
 
-    LaunchedEffect(key1 = isClicked) {
-        if (isClicked) { onClick?.invoke() }
-    }
+    LaunchedEffect(key1 = isClicked) { if (isClicked) { onClick?.invoke() } }
 
     Box {
         OutlinedTextField (
@@ -265,5 +266,34 @@ fun MovieItemVertical (
         SpacerHeight(MediumSpace)
         TextMedium(text = movie.title)
         RatingBarItem(ratingAverage = movie.voteAverage)
+    }
+}
+
+/* ---------------------------------------- */
+
+@Composable
+fun MovieListsInHomeItem (
+    movies: List<Movie>,
+    bookmarkedMovies: Set<Int>,
+    navigateToDetails: (Int, Movie) -> Unit,
+    bookmarkEvent: (BookmarkEvent) -> Unit
+) {
+    LazyRow (
+        modifier = Modifier,
+        contentPadding = PaddingValues(ExtraSmallSpace)
+    ) {
+        items(movies.size) { index ->
+            val movie = movies[index]
+            val isBookmarked = bookmarkedMovies.contains(movie.id)
+
+            MovieItem(
+                movie = movie,
+                navigateToDetails = { _, _ ->
+                    navigateToDetails(movie.id, movie)
+                },
+                onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) },
+                isBookmarked = isBookmarked
+            )
+        }
     }
 }

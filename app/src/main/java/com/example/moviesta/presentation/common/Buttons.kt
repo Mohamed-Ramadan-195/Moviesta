@@ -20,7 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.moviesta.R
 import com.example.moviesta.ui.theme.PrimaryColor
-import com.example.moviesta.util.Dimen
+import com.example.moviesta.util.Dimen.ExtraLargeSpace
+import com.example.moviesta.util.Dimen.SmallSpace
 
 @Composable
 fun MoviestaButton (
@@ -30,8 +31,8 @@ fun MoviestaButton (
     Button (
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
-        shape = RoundedCornerShape(Dimen.ExtraLargeSpace),
-        contentPadding = PaddingValues(all = Dimen.SmallSpace),
+        shape = RoundedCornerShape(ExtraLargeSpace),
+        contentPadding = PaddingValues(all = SmallSpace),
         colors = ButtonDefaults.buttonColors(
             containerColor = PrimaryColor,
             contentColor = Color.Black
@@ -66,7 +67,7 @@ fun MoviestaTextButton (
     TextButton (
         modifier = modifier,
         onClick = onClick,
-        contentPadding = PaddingValues(all = Dimen.SmallSpace)
+        contentPadding = PaddingValues(all = SmallSpace)
     ) {
         Text (
             text = text,

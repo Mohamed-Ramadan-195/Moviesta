@@ -3,6 +3,7 @@ package com.example.moviesta
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installSplashScreen().apply {
             setKeepOnScreenCondition {

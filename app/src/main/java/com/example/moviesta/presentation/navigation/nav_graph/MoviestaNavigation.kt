@@ -1,7 +1,14 @@
 package com.example.moviesta.presentation.navigation.nav_graph
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,12 +25,13 @@ import com.example.moviesta.R
 import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.navigation.bottom_navigation.MoviestaBottomNavigation
 import com.example.moviesta.presentation.navigation.bottom_navigation.MoviestaBottomNavigationItem
-import com.example.moviesta.presentation.screen.bookmark.BookmarkScreen
-import com.example.moviesta.presentation.screen.details.DetailsScreen
-import com.example.moviesta.presentation.screen.discover.DiscoverScreen
-import com.example.moviesta.presentation.screen.home.HomeScreen
+import com.example.moviesta.presentation.screen.bookmark.view.BookmarkScreen
+import com.example.moviesta.presentation.screen.details.view.DetailsScreen
+import com.example.moviesta.presentation.screen.discover.view.DiscoverScreen
+import com.example.moviesta.presentation.screen.home.view.HomeScreen
 import com.example.moviesta.presentation.screen.search.view.SearchScreen
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoviestaNavigation() {
     // Set Bottom Navigation Data
@@ -98,13 +106,24 @@ fun MoviestaNavigation() {
             }
         }
     ) {
-        val bottomPadding = it.calculateBottomPadding()
         NavHost (
             navController = navController,
             startDestination = Route.HomeScreen.route,
-            modifier = Modifier.padding(bottom = bottomPadding)
+            modifier = Modifier
         ) {
-            composable(route = Route.HomeScreen.route) {
+            composable(
+                route = Route.HomeScreen.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(
+                            400, easing = LinearEasing
+                        )
+                    ) + slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                }
+            ) {
                 HomeScreen (
                     navigateToSearch = {
                         navigateToTap (
@@ -126,7 +145,19 @@ fun MoviestaNavigation() {
                     }
                 )
             }
-            composable(route = Route.SearchScreen.route) {
+            composable(
+                route = Route.SearchScreen.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(
+                            400, easing = LinearEasing
+                        )
+                    ) + slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                }
+            ) {
                 SearchScreen (
                     navigateToDetails = { movieId, movie ->
                         navigateToDetails (
@@ -137,7 +168,19 @@ fun MoviestaNavigation() {
                     }
                 )
             }
-            composable(route = Route.BookmarkScreen.route) {
+            composable(
+                route = Route.BookmarkScreen.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(
+                            400, easing = LinearEasing
+                        )
+                    ) + slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                }
+            ) {
                 BookmarkScreen (
                     navigateToDetails = { movieId, movie ->
                         navigateToDetails (
@@ -148,7 +191,29 @@ fun MoviestaNavigation() {
                     }
                 )
             }
-            composable(route = Route.DiscoverScreen.route) {
+            composable(
+                route = Route.DiscoverScreen.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(
+                            400, easing = LinearEasing
+                        )
+                    ) + slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                },
+                exitTransition = {
+                    fadeOut(
+                        animationSpec = tween(
+                            300, easing = LinearEasing
+                        )
+                    ) + slideOutOfContainer(
+                        animationSpec = tween(300, easing = EaseOut),
+                        towards = AnimatedContentTransitionScope.SlideDirection.End
+                    )
+                }
+            ) {
                 DiscoverScreen (
                     navigateUp = { navController.navigateUp() },
                     navigateToDetails = { movieId, movie ->
@@ -160,7 +225,29 @@ fun MoviestaNavigation() {
                     }
                 )
             }
-            composable(route = Route.DetailsScreen.route) {
+            composable(
+                route = Route.DetailsScreen.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(
+                            400, easing = LinearEasing
+                        )
+                    ) + slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                },
+                exitTransition = {
+                    fadeOut(
+                        animationSpec = tween(
+                            300, easing = LinearEasing
+                        )
+                    ) + slideOutOfContainer(
+                        animationSpec = tween(300, easing = EaseOut),
+                        towards = AnimatedContentTransitionScope.SlideDirection.End
+                    )
+                }
+            ) {
                 val id = navController.previousBackStackEntry?.savedStateHandle?.get<Int>("id")
                 val movie = navController.previousBackStackEntry?.savedStateHandle?.get<Movie>("movie")
 

@@ -1,4 +1,4 @@
-package com.example.moviesta.presentation.screen.bookmark
+package com.example.moviesta.presentation.screen.bookmark.state
 
 import com.example.moviesta.domain.model.Movie
 

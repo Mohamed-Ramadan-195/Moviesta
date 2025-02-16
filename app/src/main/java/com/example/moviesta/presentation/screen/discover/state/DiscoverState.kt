@@ -1,4 +1,4 @@
-package com.example.moviesta.presentation.screen.discover
+package com.example.moviesta.presentation.screen.discover.state
 
 import com.example.moviesta.domain.model.Genre
 import com.example.moviesta.domain.model.Movie

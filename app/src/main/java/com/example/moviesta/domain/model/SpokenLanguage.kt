@@ -1,11 +1,12 @@
 package com.example.moviesta.domain.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SpokenLanguage(
-    val english_name: String,
-    val iso_639_1: String,
-    val name: String
+    @SerializedName("english_name") val englishName: String,
+    @SerializedName("iso_639_1") val iso6391: String,
+    @SerializedName("name") val name: String
 ): Parcelable

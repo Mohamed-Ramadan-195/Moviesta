@@ -23,9 +23,7 @@ fun NavGraph (
             route = Route.AppStartNavigation.route,
             startDestination = Route.OnBoardingScreen.route
         ) {
-            composable (
-                route = Route.OnBoardingScreen.route
-            ) {
+            composable (route = Route.OnBoardingScreen.route) {
                 val onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
                 OnBoardingScreen(onBoardingViewModel::onEvent)
             }
@@ -34,11 +32,9 @@ fun NavGraph (
         // Second Navigation Shown
         navigation (
             route = Route.MoviestaNavigation.route,
-            startDestination = Route.MoviestaNavigator.route
+            startDestination = Route.MoviestaNavigator.route,
         ) {
-            composable (
-                route = Route.MoviestaNavigator.route
-            ) {
+            composable (route = Route.MoviestaNavigator.route) {
                 MoviestaNavigation()
             }
         }

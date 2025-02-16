@@ -1,15 +1,17 @@
 package com.example.moviesta.presentation.navigation.bottom_navigation
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -18,11 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviesta.R
-import com.example.moviesta.presentation.common.SpacerHeight
-import com.example.moviesta.ui.theme.PrimaryBackground
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.ui.theme.SecondaryColor
-import com.example.moviesta.util.Dimen
 
 @Composable
 fun MoviestaBottomNavigation (
@@ -31,33 +30,30 @@ fun MoviestaBottomNavigation (
     onItemClick: (Int) -> Unit
 ) {
     NavigationBar (
-        modifier = Modifier.fillMaxWidth(),
-        containerColor = PrimaryBackground
+        modifier = Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.navigationBars),
+        containerColor = MaterialTheme.colorScheme.background
     ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem (
                 selected = index == onItemSelected,
                 onClick = { onItemClick(index) },
                 icon = {
-                    Column (
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon (
-                            painter = painterResource (
-                                if (index == onItemSelected) item.iconFocused
-                                else item.icon
-                            ),
-                            contentDescription = "Bottom Navigation Icon",
-                            modifier = Modifier.size(20.dp)
+                    Icon (
+                        painter = painterResource (
+                            if (index == onItemSelected) item.iconFocused
+                            else item.icon
+                        ),
+                        contentDescription = "Bottom Navigation Icon",
+                        modifier = Modifier.size(20.dp)
+                    )
+                },
+                label = {
+                    if (index == onItemSelected) {
+                        Text (
+                            text = item.title,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
-                        SpacerHeight(Dimen.SmallSpace)
-                        if (index == onItemSelected) {
-                            Text (
-                                text = item.title,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
                     }
                 },
                 colors = NavigationBarItemDefaults.colors (
@@ -74,7 +70,7 @@ fun MoviestaBottomNavigation (
 
 @Composable
 @Preview(showBackground = true)
-fun MoviestaBottomNavigationPreview() {
+private fun MoviestaBottomNavigationPreview() {
     MoviestaBottomNavigation (
         items =
             listOf (

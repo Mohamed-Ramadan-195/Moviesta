@@ -33,4 +33,6 @@ object Constant {
 
     // Local Data
     const val DATABASE_NAME = "Moviesta Database"
+    const val SELECT_MOVIES_QUERY = "SELECT * FROM Movie"
+    const val SELECT_MOVIE_DETAILS_QUERY = "SELECT * FROM Movie WHERE id=:id"
 }

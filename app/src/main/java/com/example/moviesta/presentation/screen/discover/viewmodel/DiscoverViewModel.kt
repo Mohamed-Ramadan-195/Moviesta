@@ -1,10 +1,11 @@
-package com.example.moviesta.presentation.screen.discover
+package com.example.moviesta.presentation.screen.discover.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviesta.domain.usecase.movie.base.MovieUseCasesRemote
+import com.example.moviesta.presentation.screen.discover.state.DiscoverState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
