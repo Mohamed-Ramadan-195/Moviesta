@@ -10,7 +10,6 @@ Moviesta is a movie discovery app that lets you explore current and top-rated mo
 ### 🔹 Coil for image loading
 ### 🔹 Material-3 Design for UI/UX
 ### 🔹 Preference Datastore for managing user preferences
-### 🔹 Git & GitHub for Version Control
 ### 🔹 The Shimmer Effect for loading states
 ### 🔹 Pager State for smooth navigation for onboarding
 
@@ -27,4 +26,5 @@ Moviesta is a movie discovery app that lets you explore current and top-rated mo
 # How to install this app ?
 Just copy this url ``` https://github.com/Mohamed-Ramadan-195/Moviesta ``` and clone it in your android studio.
 
-# Moviesta Live Demo
+# Moviesta Live Demo 
+[Moviesta](https://drive.google.com/file/d/1vS_0IzXjuaakQAerThirgk4Aw2lsP1Q-/view?usp=sharing)
