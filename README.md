@@ -1,5 +1,5 @@
 # 📌 Description
-Moviesta is a movie discovery app that lets you explore current and top-rated movies, search for any movie, and bookmark favorites. With a modern UI and Clean Architecture, it ensures a smooth and engaging experience.
+### Moviesta is a movie discovery app that lets you explore current and top-rated movies, search for any movie, and bookmark favorites. With a modern UI and Clean Architecture, it ensures a smooth and engaging experience.
 
 # 📌 Tech Stack & Tools used
 ### 🔹 Kotlin, Jetpack Compose, MVVM
