@@ -126,57 +126,61 @@ private fun DetailsScreenContent (
                onClick = { bookmarkEvent(BookmarkEvent.OperationsInMovie(movie = movie)) }
            )
         }
-        TextAddress(text = movieDetails.title)
-        Row (modifier = Modifier.fillMaxWidth()) {
-            TextMedium(text = movieDetails.voteAverage.toString())
-            SpacerWidth(SmallSpace)
-            RatingBarItem(movieDetails.voteAverage)
-            SpacerWidth(SmallSpace)
-            TextMedium(text = "(${movieDetails.voteCount})")
-        }
-        SpacerHeight(MediumSpace)
-        TextHeadline(text = "Overview", color = PrimaryColor)
-        SpacerHeight(ExtraSmallSpace)
-        var expanded by remember { mutableStateOf(false) }
-        Text (
-            modifier = Modifier
-                .animateContentSize()
-                .clickable {
-                    expanded = !expanded
-                },
-            text = movieDetails.overview,
-            maxLines = if (!expanded) 2 else 10,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.White,
-            fontFamily = FontFamily.Serif
-        )
-        SpacerHeight(SmallSpace)
-        TextHeadline(text = "Language", color = PrimaryColor)
-        SpacerHeight(ExtraSmallSpace)
-        LazyRow {
-            items(movieDetails.spokenLanguages.size) { index ->
-                TextMedium(
-                    text =
-                    if (index == movieDetails.spokenLanguages.lastIndex)
-                        movieDetails.spokenLanguages[index].name
-                    else
-                        "${movieDetails.spokenLanguages[index].name}, "
-                )
+        Column (
+            modifier = Modifier.fillMaxSize().padding(horizontal = SmallSpace)
+        ) {
+            TextAddress(text = movieDetails.title)
+            Row (modifier = Modifier.fillMaxWidth()) {
+                TextMedium(text = movieDetails.voteAverage.toString())
+                SpacerWidth(SmallSpace)
+                RatingBarItem(movieDetails.voteAverage)
+                SpacerWidth(SmallSpace)
+                TextMedium(text = "(${movieDetails.voteCount})")
             }
-        }
-        SpacerHeight(SmallSpace)
-        TextHeadline(text = "Genres", color = PrimaryColor)
-        SpacerHeight(ExtraSmallSpace)
-        LazyRow (modifier = Modifier.fillMaxWidth()) {
-            items(movieDetails.genres.size) { index ->
-                TextMedium(
-                    text =
-                    if (index == movieDetails.genres.lastIndex)
-                        movieDetails.genres[index].name
-                    else
-                        "${movieDetails.genres[index].name}, "
-                )
+            SpacerHeight(MediumSpace)
+            TextHeadline(text = "Overview", color = PrimaryColor)
+            SpacerHeight(ExtraSmallSpace)
+            var expanded by remember { mutableStateOf(false) }
+            Text (
+                modifier = Modifier
+                    .animateContentSize()
+                    .clickable {
+                        expanded = !expanded
+                    },
+                text = movieDetails.overview,
+                maxLines = if (!expanded) 2 else 10,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color.White,
+                fontFamily = FontFamily.Serif
+            )
+            SpacerHeight(SmallSpace)
+            TextHeadline(text = "Language", color = PrimaryColor)
+            SpacerHeight(ExtraSmallSpace)
+            LazyRow {
+                items(movieDetails.spokenLanguages.size) { index ->
+                    TextMedium(
+                        text =
+                        if (index == movieDetails.spokenLanguages.lastIndex)
+                            movieDetails.spokenLanguages[index].name
+                        else
+                            "${movieDetails.spokenLanguages[index].name}, "
+                    )
+                }
+            }
+            SpacerHeight(SmallSpace)
+            TextHeadline(text = "Genres", color = PrimaryColor)
+            SpacerHeight(ExtraSmallSpace)
+            LazyRow (modifier = Modifier.fillMaxWidth()) {
+                items(movieDetails.genres.size) { index ->
+                    TextMedium(
+                        text =
+                        if (index == movieDetails.genres.lastIndex)
+                            movieDetails.genres[index].name
+                        else
+                            "${movieDetails.genres[index].name}, "
+                    )
+                }
             }
         }
     }

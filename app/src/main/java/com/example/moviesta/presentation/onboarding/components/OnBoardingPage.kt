@@ -34,12 +34,12 @@ fun OnBoardingPage (
         Image (
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.6f),
             painter = painterResource(onBoardingModel.icon),
             contentDescription = "On-Boarding Image",
             contentScale = ContentScale.Crop
         )
-        SpacerHeight(Dimen.MediumSpace)
+        SpacerHeight(Dimen.LargeSpace)
         Text (
             modifier = Modifier,
             text = onBoardingModel.title,
@@ -48,7 +48,7 @@ fun OnBoardingPage (
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
-        SpacerHeight(Dimen.SmallSpace)
+        SpacerHeight(Dimen.UnderMediumSpace)
         Text (
             modifier = Modifier,
             text = onBoardingModel.body,

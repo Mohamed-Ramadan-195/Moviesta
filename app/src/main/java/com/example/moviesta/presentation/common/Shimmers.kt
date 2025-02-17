@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import com.example.moviesta.util.Dimen.ExtraLargeSpace
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
+import com.example.moviesta.util.Dimen.LargeSpace
 import com.example.moviesta.util.Dimen.MediumSpace
 import com.example.moviesta.util.Dimen.SmallSpace
 import com.example.moviesta.util.shimmerEffect
@@ -46,6 +46,6 @@ fun MoviesListsShimmerEffect (
                     .shimmerEffect()
             )
         }
-        SpacerHeight(ExtraLargeSpace)
+        SpacerHeight(LargeSpace)
     }
 }

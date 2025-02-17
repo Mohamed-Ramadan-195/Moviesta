@@ -22,6 +22,7 @@ import com.example.moviesta.presentation.common.EmptyScreen
 import com.example.moviesta.presentation.common.MovieItemVertical
 import com.example.moviesta.presentation.common.SpacerHeight
 import com.example.moviesta.presentation.common.TextAddress
+import com.example.moviesta.presentation.common.TextMedium
 import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
 import com.example.moviesta.presentation.screen.bookmark.viewmodel.BookmarkViewModel
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
@@ -69,6 +70,7 @@ private fun BookmarkScreenContent (
             .padding(MediumSpace)
     ) {
         TextAddress("Bookmark")
+        TextMedium("Your favorite movies, all in one place!", fontSize = 16)
         SpacerHeight(MediumSpace)
         if (movies.isEmpty()) {
             EmptyScreen (

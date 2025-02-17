@@ -101,7 +101,7 @@ private fun SearchScreenContent (
             .padding(MediumSpace)
     ) {
         TextAddress("Moviesta")
-        TextMedium("Explore the world of cinema - search now!")
+        TextMedium("Explore the world of cinema")
         SpacerHeight(MediumSpace)
         SearchBarItem (
             modifier = Modifier,

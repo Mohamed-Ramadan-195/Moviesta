@@ -106,7 +106,8 @@ private fun DiscoverScreenContent (
             .safeDrawingPadding()
             .safeContentPadding()
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .padding(SmallSpace),
     ) {
         Row (
             modifier = Modifier.fillMaxWidth(),

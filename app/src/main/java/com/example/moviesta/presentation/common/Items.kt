@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -295,5 +296,30 @@ fun MovieListsInHomeItem (
                 isBookmarked = isBookmarked
             )
         }
+    }
+}
+
+/* ---------------------------------------- */
+
+@Composable
+fun MovieListsItemAdress (
+    textHeadline: String,
+    navigateToDiscover: () -> Unit
+) {
+    Row (
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextHeadline(
+            modifier = Modifier.padding(start = ExtraSmallSpace),
+            text = textHeadline
+        )
+        MoviestaTextButton(
+            modifier = Modifier.padding(end = ExtraSmallSpace),
+            text = "See More",
+            color = PrimaryColor,
+            onClick = { navigateToDiscover() }
+        )
     }
 }

@@ -62,4 +62,13 @@ class HomeViewModel @Inject constructor (
             }
         }
     }
+
+    // ------------------------- //
+
+    private val _isFirstLoad = mutableStateOf(true)
+    val isFirstLoad: State<Boolean> = _isFirstLoad
+
+    fun setFirstLoadCompleted() {
+        _isFirstLoad.value = false
+    }
 }

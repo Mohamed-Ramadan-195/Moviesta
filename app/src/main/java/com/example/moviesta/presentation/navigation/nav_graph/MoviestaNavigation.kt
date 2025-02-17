@@ -1,6 +1,5 @@
 package com.example.moviesta.presentation.navigation.nav_graph
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
@@ -31,7 +30,6 @@ import com.example.moviesta.presentation.screen.discover.view.DiscoverScreen
 import com.example.moviesta.presentation.screen.home.view.HomeScreen
 import com.example.moviesta.presentation.screen.search.view.SearchScreen
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MoviestaNavigation() {
     // Set Bottom Navigation Data
@@ -106,6 +104,7 @@ fun MoviestaNavigation() {
             }
         }
     ) {
+        val topPadding = it.calculateTopPadding()
         NavHost (
             navController = navController,
             startDestination = Route.HomeScreen.route,

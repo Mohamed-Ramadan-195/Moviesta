@@ -1,9 +1,8 @@
 package com.example.moviesta.presentation.screen.home.view
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,16 +16,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.moviesta.domain.model.Movie
 import com.example.moviesta.presentation.common.MovieListsInHomeItem
+import com.example.moviesta.presentation.common.MovieListsItemAdress
 import com.example.moviesta.presentation.common.MoviesListsShimmerEffect
-import com.example.moviesta.presentation.common.MoviestaTextButton
 import com.example.moviesta.presentation.common.SearchBarItem
-import com.example.moviesta.presentation.common.TextHeadline
 import com.example.moviesta.presentation.common.SpacerHeight
 import com.example.moviesta.presentation.common.TextAddress
 import com.example.moviesta.presentation.common.TextMedium
@@ -34,11 +31,10 @@ import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
 import com.example.moviesta.presentation.screen.bookmark.viewmodel.BookmarkViewModel
 import com.example.moviesta.presentation.screen.home.state.MovieState
 import com.example.moviesta.presentation.screen.home.viewmodel.HomeViewModel
-import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.util.Dimen.ExtraSmallSpace
 import com.example.moviesta.util.Dimen.SmallSpace
 import com.example.moviesta.util.Dimen.MediumSpace
-import com.example.moviesta.util.Dimen.ExtraLargeSpace
+import com.example.moviesta.util.Dimen.UnderMediumSpace
 import kotlinx.coroutines.delay
 
 @Composable
@@ -57,6 +53,7 @@ fun HomeScreen (
         bookmarkViewModel.onEvent(BookmarkEvent.RemoveSideEffect)
     }
     val bookmarkedMovies = bookmarkViewModel.bookmarkedMovies
+    val firstLoad = homeViewModel.isFirstLoad.value
 
     HomeScreenContent (
         movieState = movieState,
@@ -64,7 +61,9 @@ fun HomeScreen (
         navigateToDetails = navigateToDetails,
         navigateToDiscover = navigateToDiscover,
         bookmarkEvent = bookmarkViewModel::onEvent,
-        bookmarkedMovies = bookmarkedMovies
+        bookmarkedMovies = bookmarkedMovies,
+        firstLoad = firstLoad,
+        setFirstLoadCompleted = homeViewModel::setFirstLoadCompleted
     )
 }
 
@@ -75,13 +74,16 @@ private fun HomeScreenContent (
     navigateToDetails: (Int, Movie) -> Unit,
     navigateToDiscover: () -> Unit,
     bookmarkEvent: (BookmarkEvent) -> Unit,
-    bookmarkedMovies: Set<Int>
+    bookmarkedMovies: Set<Int>,
+    firstLoad: Boolean,
+    setFirstLoadCompleted: () -> Unit
 ) {
     Column (
         modifier = Modifier
             .fillMaxSize()
             .safeContentPadding()
             .verticalScroll(rememberScrollState())
+            .padding(vertical = SmallSpace, horizontal = UnderMediumSpace)
     ) {
         TextAddress("Moviesta")
         TextMedium("Discover Your Next Favorite Movie")
@@ -95,35 +97,32 @@ private fun HomeScreenContent (
             onSearch = {},
             onClick = { navigateToSearch() }
         )
-        SpacerHeight(MediumSpace)
 
-        var isLoading by remember { mutableStateOf(true) }
-        LaunchedEffect(key1 = true) {
-            delay(3000)
-            isLoading = false
+        var isLoading by remember { mutableStateOf(firstLoad) }
+
+        LaunchedEffect(Unit) {
+            if (isLoading) {
+                delay(3000)
+                isLoading = false
+                setFirstLoadCompleted()
+            }
         }
 
         repeat(4) {
-            LazyRow {
+            LazyRow (
+                contentPadding = PaddingValues(ExtraSmallSpace)
+            ) {
                 items(4) {
                     MoviesListsShimmerEffect(isLoading = isLoading)
                 }
             }
         }
 
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextHeadline("Now Playing")
-            MoviestaTextButton(
-                modifier = Modifier.padding(end = ExtraSmallSpace),
-                text = "See More",
-                color = PrimaryColor,
-                onClick = { navigateToDiscover() }
-            )
-        }
+        // List 1 : Now Playing
+        MovieListsItemAdress (
+            textHeadline = "Now Playing",
+            navigateToDiscover = navigateToDiscover
+        )
         SpacerHeight(SmallSpace)
         MovieListsInHomeItem (
             movies = movieState.moviesNowPlaying,
@@ -131,21 +130,13 @@ private fun HomeScreenContent (
             navigateToDetails = navigateToDetails,
             bookmarkEvent = bookmarkEvent
         )
-        SpacerHeight(ExtraLargeSpace)
+        SpacerHeight(MediumSpace)
 
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextHeadline("Popular")
-            MoviestaTextButton(
-                modifier = Modifier.padding(end = ExtraSmallSpace),
-                text = "See More",
-                color = PrimaryColor,
-                onClick = { navigateToDiscover() }
-            )
-        }
+        // List 2 : Popular
+        MovieListsItemAdress (
+            textHeadline = "Popular",
+            navigateToDiscover = navigateToDiscover
+        )
         SpacerHeight(SmallSpace)
         MovieListsInHomeItem (
             movies = movieState.moviesPopular,
@@ -153,21 +144,13 @@ private fun HomeScreenContent (
             navigateToDetails = navigateToDetails,
             bookmarkEvent = bookmarkEvent
         )
-        SpacerHeight(ExtraLargeSpace)
+        SpacerHeight(MediumSpace)
 
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextHeadline("Top Rated")
-            MoviestaTextButton(
-                modifier = Modifier.padding(end = ExtraSmallSpace),
-                text = "See More",
-                color = PrimaryColor,
-                onClick = { navigateToDiscover() }
-            )
-        }
+        // List 3 : Top Rated
+        MovieListsItemAdress (
+            textHeadline = "Top Rated",
+            navigateToDiscover = navigateToDiscover
+        )
         SpacerHeight(SmallSpace)
         MovieListsInHomeItem (
             movies = movieState.moviesTopRated,
@@ -175,21 +158,13 @@ private fun HomeScreenContent (
             navigateToDetails = navigateToDetails,
             bookmarkEvent = bookmarkEvent
         )
-        SpacerHeight(ExtraLargeSpace)
+        SpacerHeight(MediumSpace)
 
-        Row (
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextHeadline("Upcoming")
-            MoviestaTextButton(
-                modifier = Modifier.padding(end = ExtraSmallSpace),
-                text = "See More",
-                color = PrimaryColor,
-                onClick = { navigateToDiscover() }
-            )
-        }
+        // List 4 : Upcoming
+        MovieListsItemAdress (
+            textHeadline = "Upcoming",
+            navigateToDiscover = navigateToDiscover
+        )
         SpacerHeight(SmallSpace)
         MovieListsInHomeItem (
             movies = movieState.moviesUpcoming,
@@ -197,5 +172,6 @@ private fun HomeScreenContent (
             navigateToDetails = navigateToDetails,
             bookmarkEvent = bookmarkEvent
         )
+        SpacerHeight(MediumSpace)
     }
 }
