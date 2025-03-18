@@ -48,9 +48,9 @@ import com.example.moviesta.presentation.screen.bookmark.viewmodel.BookmarkViewM
 import com.example.moviesta.presentation.screen.details.viewmodel.DetailsViewModel
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.util.Constant
-import com.example.moviesta.util.Dimen.ExtraSmallSpace
-import com.example.moviesta.util.Dimen.MediumSpace
-import com.example.moviesta.util.Dimen.SmallSpace
+import com.example.moviesta.presentation.Dimen.ExtraSmallSpace
+import com.example.moviesta.presentation.Dimen.MediumSpace
+import com.example.moviesta.presentation.Dimen.SmallSpace
 
 @Composable
 fun DetailsScreen (

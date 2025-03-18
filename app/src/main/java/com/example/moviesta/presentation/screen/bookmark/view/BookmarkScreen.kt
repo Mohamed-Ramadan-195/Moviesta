@@ -25,10 +25,10 @@ import com.example.moviesta.presentation.common.TextAddress
 import com.example.moviesta.presentation.common.TextMedium
 import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
 import com.example.moviesta.presentation.screen.bookmark.viewmodel.BookmarkViewModel
-import com.example.moviesta.util.Dimen.ExtraSmallSpace
-import com.example.moviesta.util.Dimen.LargeSpace
-import com.example.moviesta.util.Dimen.MediumSpace
-import com.example.moviesta.util.Dimen.SmallSpace
+import com.example.moviesta.presentation.Dimen.ExtraSmallSpace
+import com.example.moviesta.presentation.Dimen.LargeSpace
+import com.example.moviesta.presentation.Dimen.MediumSpace
+import com.example.moviesta.presentation.Dimen.SmallSpace
 
 @Composable
 fun BookmarkScreen (

@@ -20,7 +20,7 @@ import com.example.moviesta.R
 import com.example.moviesta.presentation.common.SpacerHeight
 import com.example.moviesta.presentation.onboarding.model.OnBoardingModel
 import com.example.moviesta.ui.theme.PrimaryBackground
-import com.example.moviesta.util.Dimen
+import com.example.moviesta.presentation.Dimen
 
 @Composable
 fun OnBoardingPage (

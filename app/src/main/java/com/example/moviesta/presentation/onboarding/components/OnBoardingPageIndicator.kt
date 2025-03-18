@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.moviesta.ui.theme.PrimaryColor
 import com.example.moviesta.ui.theme.SecondaryColor
-import com.example.moviesta.util.Dimen
+import com.example.moviesta.presentation.Dimen
 
 @Composable
 fun OnBoardingPageIndicator (

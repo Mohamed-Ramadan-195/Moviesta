@@ -31,10 +31,10 @@ import com.example.moviesta.presentation.screen.bookmark.state.BookmarkEvent
 import com.example.moviesta.presentation.screen.bookmark.viewmodel.BookmarkViewModel
 import com.example.moviesta.presentation.screen.home.state.MovieState
 import com.example.moviesta.presentation.screen.home.viewmodel.HomeViewModel
-import com.example.moviesta.util.Dimen.ExtraSmallSpace
-import com.example.moviesta.util.Dimen.SmallSpace
-import com.example.moviesta.util.Dimen.MediumSpace
-import com.example.moviesta.util.Dimen.UnderMediumSpace
+import com.example.moviesta.presentation.Dimen.ExtraSmallSpace
+import com.example.moviesta.presentation.Dimen.SmallSpace
+import com.example.moviesta.presentation.Dimen.MediumSpace
+import com.example.moviesta.presentation.Dimen.UnderMediumSpace
 import kotlinx.coroutines.delay
 
 @Composable

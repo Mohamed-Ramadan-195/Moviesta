@@ -65,7 +65,7 @@ class BookmarkViewModel @Inject constructor (
     private val _bookmarkState = mutableStateOf(BookmarkState())
     var bookmarkState: State<BookmarkState> = _bookmarkState
 
-    fun getMoviesBookmarked() {
+    private fun getMoviesBookmarked() {
         viewModelScope.launch {
             movieUseCases.getMoviesBookmarkedUseCase()
                 .collect { moviesBookmarked ->

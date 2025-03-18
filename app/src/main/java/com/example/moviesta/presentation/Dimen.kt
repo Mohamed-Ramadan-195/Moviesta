@@ -1,4 +1,4 @@
-package com.example.moviesta.util
+package com.example.moviesta.presentation
 
 import androidx.compose.ui.unit.dp
 

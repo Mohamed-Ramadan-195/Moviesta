@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.moviesta.R
 import com.example.moviesta.ui.theme.PrimaryColor
-import com.example.moviesta.util.Dimen.ExtraLargeSpace
-import com.example.moviesta.util.Dimen.SmallSpace
+import com.example.moviesta.presentation.Dimen.ExtraLargeSpace
+import com.example.moviesta.presentation.Dimen.SmallSpace
 
 @Composable
 fun MoviestaButton (
@@ -56,6 +56,8 @@ fun MoviestaButtonPreview() {
     )
 }
 
+/* ----------------- */
+
 @Composable
 fun MoviestaTextButton (
     text: String,
@@ -87,6 +89,8 @@ fun MoviestaTextButtonPreview() {
         onClick = {}
     )
 }
+
+/* ----------------- */
 
 @Composable
 fun MoviestaIconButton (

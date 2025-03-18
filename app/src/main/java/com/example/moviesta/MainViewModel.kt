@@ -23,6 +23,7 @@ class MainViewModel @Inject constructor (
     var startDestination by mutableStateOf(Route.AppStartNavigation.route)
         private set
 
+    // Handle Splash Screen & Start Destination
     init {
         appEntryUseCases.readAppEntryUseCase().onEach { startFromHomeScreen ->
             startDestination = if (startFromHomeScreen) {

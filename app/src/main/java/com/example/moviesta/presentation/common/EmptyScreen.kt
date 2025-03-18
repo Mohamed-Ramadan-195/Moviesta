@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moviesta.ui.theme.PrimaryColor
-import com.example.moviesta.util.Dimen.ExtraSmallSpace
+import com.example.moviesta.presentation.Dimen.ExtraSmallSpace
 
 @Composable
 fun EmptyScreen (

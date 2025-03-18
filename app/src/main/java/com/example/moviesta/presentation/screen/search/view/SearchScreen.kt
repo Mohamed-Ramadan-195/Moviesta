@@ -40,10 +40,10 @@ import com.example.moviesta.presentation.screen.search.state.SearchEvent
 import com.example.moviesta.presentation.screen.search.state.SearchState
 import com.example.moviesta.presentation.screen.search.viewmodel.SearchViewModel
 import com.example.moviesta.ui.theme.SecondaryColor
-import com.example.moviesta.util.Dimen.ExtraSmallSpace
-import com.example.moviesta.util.Dimen.LargeSpace
-import com.example.moviesta.util.Dimen.MediumSpace
-import com.example.moviesta.util.Dimen.SmallSpace
+import com.example.moviesta.presentation.Dimen.ExtraSmallSpace
+import com.example.moviesta.presentation.Dimen.LargeSpace
+import com.example.moviesta.presentation.Dimen.MediumSpace
+import com.example.moviesta.presentation.Dimen.SmallSpace
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
